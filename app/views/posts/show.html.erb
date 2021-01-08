@@ -1,52 +1,42 @@
-
-Title: <h1><%= @post.title %></h1>
-Content:<%= @post.content %><br><br>
+Title: 
+<h1><%= @post.title %></h1>
+Content:<%= @post.content %><br>
+<br>
 Categories:
 <ul>
-<% @post.categories.each do |category| %>
-  <li><%= category.name %></li>
-<% end %>
- </ul>
-
+  <% @post.categories.each do |category| %>
+    <li><%= category.name %></li>
+  <% end %>
+</ul>
 <ul>
-<% @post.comments.each do |comment| %>
-<% # added conditional statement b/c was throwing error for comments accidentally created without a user, only shows comment if it was successfully created %>
- <% if comment.user %> <li><%= comment.user.username %> says: <%= comment.content %></li><% end %>
-<% end %>
+  <% @post.comments.each do |comment| %>
+    <% if comment.user %> 
+      <li><%= comment.user.username %> says: <%= comment.content %></li>
+    <% end %>
+  <% end %>
 </ul>
 <br>
-
 Users:
 <ul>
-<% @post.users.uniq.each do |user| %>
-  <li><%= link_to user.username, user_path(user) %></li>
-<% end %>
+  <% @post.users.uniq.each do |user| %>
+    <li><%= link_to user.username, user_path(user) %></li>
+  <% end %>
 </ul>
-<br><br>
-
-
+<br>
+<br>
 <%= form_for @post.comments.build do |f| %>
-<% # whenever we are creating a form that is associating to objects, we need to have a hidden field for the parent %>
-<% # content and post_id in controller -> important to pass in that hidden field %>
-<%= f.hidden_field :post_id, value: @post.id %>
-Leave a Comment: <%= f.text_field :content %>
-<br>
+  <%= f.hidden_field :post_id, value: @post.id %>
+  Leave a Comment: <%= f.text_field :content %>
+  <br>
 
+  Select Existing Username:<%= f.collection_select :user_id, User.all, :id, :username, include_blank: "select" %>
+  <br>
 
-<% # have user_id b/c our comment table has that foreign key that associates the comments with the post and it has a foreign key that associates the user_id with the comment %>
-<% # user_id in controller %>
-Select Existing Username:<%= f.collection_select :user_id, User.all, :id, :username, include_blank: "select" %>
-<br>
-Or Create a New Username:
- <% # Whenever we are creating nested forms we use fields_for %>
- <% # users.build(plural) b/c a post has MANY users through comments %>
- <% # will create ONE user object and add it to the post users array %>
-<% # user_attributes in controller %>
-<%= f.fields_for :user, @post.users.build do |user| %>
-Username:<%= user.text_field :username %>
-Email:<%= user.text_field :email %>
-<% end %>
-<br>
-
-<%= f.submit %>
+  Or Create a New Username:
+  <%= f.fields_for :user, @post.users.build do |user| %>
+    Username:<%= user.text_field :username %>
+    Email:<%= user.text_field :email %>
+  <% end %>
+  <br>
+  <%= f.submit %>
 <% end %>
