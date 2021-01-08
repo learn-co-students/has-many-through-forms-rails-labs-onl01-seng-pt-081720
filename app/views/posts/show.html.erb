@@ -38,9 +38,9 @@ Leave a Comment: <%= f.text_field :content %>
 Select Existing Username:<%= f.collection_select :user_id, User.all, :id, :username, include_blank: "select" %>
 <br>
 Or Create a New Username:
-<% # Whenever we are creating nested forms we use fields_for %>
-<% # users.build(plural) b/c a post has MANY users through comments %>
-<% # will create ONE user object and add it to the post users array %>
+ <% # Whenever we are creating nested forms we use fields_for %>
+ <% # users.build(plural) b/c a post has MANY users through comments %>
+ <% # will create ONE user object and add it to the post users array %>
 <% # user_attributes in controller %>
 <%= f.fields_for :user, @post.users.build do |user| %>
 Username:<%= user.text_field :username %>
