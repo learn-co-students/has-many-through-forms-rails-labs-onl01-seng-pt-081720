@@ -1,1 +1,24 @@
+Title: <%= @post.title %> <br>
+Content: <%= @post.content %> <br>
+Categories: 
+    <% @post.categories.each do |category| %>
+    <%= category.name %>
+    <% end %>
+    <br>
+Comments:
+    <ul>
+        <% @post.comments.each do |comment| %>
 
+        <% unique_users = [] %>
+            
+            <% if unique_users.include?(comment.user) %>
+            <li><%= comment.content %> by <%= link_to comment.user,  user_path(comment.user)%></li>
+            
+            <% else %>
+            <% unique_users << comment.user %>
+            
+            <li><%= comment.content %> by <%= link_to comment.user,  user_path(comment.user)%></li>
+            <% end %>
+            unique_users
+        <% end %>
+    </ul>
