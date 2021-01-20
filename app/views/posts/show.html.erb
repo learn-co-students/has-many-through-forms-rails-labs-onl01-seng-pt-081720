@@ -11,3 +11,11 @@ Users:
         <li><%= comment.user.username %> says: <%= comment.content %></li>
        <% end %>
     </ul>
+
+Comments:
+
+    <ul>
+        <%=form_for @post.comment_content%>
+
+        <% end %>
+    </ul>
