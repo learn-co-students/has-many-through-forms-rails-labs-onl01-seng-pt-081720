@@ -1,1 +1,24 @@
 
+    <%= form_for @post do |f| %>
+
+    <%= f.label :title %>
+    <%= f.text_field :title %><br>
+
+    <%= f.label :content %>
+    <%= f.text_area :content %><br>
+
+
+<%# PRE-EXISTING CATEGORIES %>
+<%= f.collection_check_boxes :category_ids, Category.all, :id, :name %><br>
+
+<%# CREATE A NEW CATEGORY %>
+    <%# BUILD IT - LIKE YOU YOUVE SEEN IN THE CONTROLLER %>
+<%= f.fields_for :categories, @post.categories.build do |c_fields| %>
+    <%= c_fields.label :name, "New Category Name" %>
+    <%= c_fields.text_field :name %>
+<% end %>
+
+
+<br>
+<%= f.submit %>
+<% end %>
